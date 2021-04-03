@@ -9,8 +9,8 @@ There are two sample modules for testing ```product``` and ```order```, in which
 So we must build ```product``` module first:
 
 ```bash
-# creating necessary directoriesmkdir -p mods classes/product classes/order
-
+# creating necessary directories
+mkdir -p mods classes/product classes/order
 
 # creating JAR for product module
 javac -d classes/product $(find product/src -iname "*.java")
