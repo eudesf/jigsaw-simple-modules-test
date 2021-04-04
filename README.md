@@ -2,11 +2,11 @@
 
 Simple project to test Java modules compilation.
 
-There are two sample modules for testing ```product``` and ```order```, in which:
+There are two sample modules for testing `product` and `order`, in which:
 
-```order``` requires ```product```
+`order` requires `product`
 
-So we must build ```product``` module first:
+So we must build `product` module first:
 
 ```bash
 # creating necessary directories
@@ -27,8 +27,18 @@ jar --create --file mods/order.jar --main-class com.modulestest.order.Main -C cl
 java --module-path mods --module order
 ```
 
-After this, both modules can run just by changing the module name in ```--module``` param.
+After this, both modules can run just by changing the module name in `--module` param.
 
-Notice that we needed to include the ```--module-path``` param in the javac of ```order``` module. 
-This is necessary because ```order``` depends on ```product``` and it will look for the ```product``` 
-module in the specified module path. 
+Notice that we needed to include the `--module-path` param in the javac of `order` module.
+This is necessary because `order` depends on `product` and it will look for the `product` module in the specified module path.
+
+Checking dependency with `jdeps`:
+
+```bash
+$ jdeps -s mods/product.jar mods/order.jar
+order -> java.base
+order -> product
+product -> java.base
+```
+
+If we remove the usage of `Product` class in `order` module, it will not show the line `order -> product` even having the `requires product;` on `module-info.java` of `order` module. Because `jdeps` looks for class-level or package-level dependencies of Java class files.
